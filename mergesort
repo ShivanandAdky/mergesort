@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define SIZE 1000
+int count=0;
+
+ void merge(int A[],int low,int high,int mid)
+  {
+    int i,j,k,B[SIZE];
+    i=low;
+    j=mid+1;
+    k=low;
+     while(i<=mid && j<=high)
+      {
+        count++;
+        if(A[i]<A[j])
+         B[k++]=A[i++];
+        else 
+         B[k++]=A[j++];
+      }
+    while(i<=mid)
+      {
+        B[k++]=A[i++];
+      }
+   while(j<=high)
+  {  
+   B[k++]=A[j++];
+  }
+   for(i=low;i<=high;i++)
+     A[i]=B[i];
+ }
+
+ void mergesort(int A[SIZE],int low,int high)
+{
+  int mid;
+   if(low<high)
+  {
+    count++;
+    mid=(low+high)/2;
+   mergesort(A,low,mid);
+   mergesort(A,mid+1,high);
+   merge(A,low,high,mid);
+  }
+}
+
+ int main()
+{
+  int A[SIZE],B[SIZE],C[SIZE],n,i,j,c1,c2,c3;
+  printf("number of elements \n");
+  scanf("%d",&n);
+ 
+  printf("enter the elements\n");
+     for(i=0;i<n;i++)
+     scanf("%d",&A[i]);
+       mergesort(A,0,n-1);
+    printf("\n sorted elements are \n");
+  for(i=0;i<n;i++)
+    printf(" %d \t",A[i]);
+   printf("\n the basic operation is executed %d times\n",count);
+   printf("\n SIZE	ASC	DES RAN");
+  for(i=16;i<1000;i=i*2)
+  {
+   for(j=1;j<=i;j++)
+{
+   A[j]=j;
+   B[j]=i-j+1;
+   C[j]=((rand()%i)+1);
+  }
+   count=0;
+   mergesort(A,1,i);
+  c1=count;
+  count=0;
+mergesort(B,1,i);
+c2=count;
+count=0;
+mergesort(C,1,i);
+c3=count;
+printf("\n %d \t %d \t %d \t %d \t \n",i,c1,c2,c3);
+}
+return 0;
+}
+
